@@ -6,11 +6,9 @@ object textoNivel {
 
   var texto = "Vida: " + heroe.vida().toString() + "  |  Objetivo: Llegar a la puerta y salir de la mazmorra"
 
-  method position() = game.at(5,14)
+  method position() = game.at(6,13)
   method text() = texto
   method textColor() = "FF0000FF"
-  method height() = "60px"
-  method width() = "60px"
 
   method gameOver(){
     texto = "Game Over"
@@ -29,6 +27,11 @@ object textoNivel {
   }
 }
 
+object fondoLvl1{
+  method image() = "mazmorra.png" 
+  method position() = game.at(0,0)
+}
+
 object contadorFaseFinal{
   method esHostil() = false
 
@@ -36,7 +39,7 @@ object contadorFaseFinal{
 
   var texto = segundosRestantes.toString() + " segundos para salir!"
 
-  method position() = game.at(31, 14)
+  method position() = game.at(24, 13)
   method text() = texto
 
   method textColor() = "FF0000FF"
@@ -62,6 +65,10 @@ object contadorFaseFinal{
 }
 
 object nivel {
+
+  method setBg(){
+    game.addVisual(fondoLvl1)
+  }
 
   const murcielago1 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago2 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))

@@ -4,17 +4,17 @@ import objetos.*
 import nivel.*
 
 program miJuego {
-  game.width(37)
-  game.height(16)
+  game.width(27)
+  game.height(15)
   game.cellSize(50)
   game.title("Heroe de la mazmorra")
-  game.boardGround("mazmorra.png")
+  nivel.setBg()
   game.start()
   game.addVisualCharacter(heroe)
   nivel.setup()
   
-  // cada 1,2s se mueven los murcielagos
-  game.onTick(1200, "movimientoMurcielagos", { nivel.moverMurcielagos() })
+  // cada 1,3s se mueven los murcielagos
+  game.onTick(1300, "movimientoMurcielagos", { nivel.moverMurcielagos() })
   game.onTick(200, "bordes", { nivel.comprobarBordes() })
   
   // Cuando el personaje colisione con un murcielago o pico vuelve al origen y pierde vida
@@ -69,8 +69,8 @@ program miJuego {
         game.addVisual(contadorFaseFinal)
         game.onTick(1000, "contadorFaseFinal", { contadorFaseFinal.actualizarSegundos() })
 
-        // cada 2,3s se mueven los esqueletos
-        game.onTick(2300, "movimientoEsqueletos", { nivel.moverEsqueletos() })
+        // cada 2,2s se mueven los esqueletos
+        game.onTick(2200, "movimientoEsqueletos", { nivel.moverEsqueletos() })
       }
 
       if(!elemento.esHostil() and elemento.esLaPuertaFinal()){
