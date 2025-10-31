@@ -3,12 +3,6 @@ import personajes.*
 import objetos.*
 import nivel.*
 
-object tablero {
-  method noSeCaeYendoHaciaArriba(
-    personaje
-  ) = personaje.position().y() < (game.height() + 1)
-}
-
 program miJuego {
   game.width(37)
   game.height(16)
