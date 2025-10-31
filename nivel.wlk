@@ -62,6 +62,7 @@ object contadorFaseFinal{
 }
 
 object nivel {
+
   const murcielago1 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago2 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago3 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))

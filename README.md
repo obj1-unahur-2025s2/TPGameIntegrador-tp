@@ -6,7 +6,9 @@
 
 ## Capturas
 
-(agregar)
+<img src="./assets/cap1.png" alt="captura1" width="600" height="300" />
+
+<img src="./assets/cap2.png" alt="captura2" width="600" height="300" />
 
 ## Reglas de Juego / Instrucciones
 
