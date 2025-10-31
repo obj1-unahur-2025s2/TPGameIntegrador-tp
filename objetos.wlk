@@ -21,12 +21,17 @@ object puertaFinal {
   // getters
   method position() = position
   method image() = image
+
+  method buenIntento(){
+    game.say(self, "Buen intento.. Veamos si podes escapar ahora...")
+  }
 }
 
 class Pico {
   method esLaPuertaFalsa() = false
   method esLaPuertaFinal() = false
   method esHostil() = true
+  method atacaConVeneno() = false
   method daño() = 15
 
   const x = 3.randomUpTo(game.width()-3).truncate(0)

@@ -8,11 +8,28 @@ object heroe {
   
   method image() = imagen
   method position() = position
+
+  var property estaEnvenenado = false
+  method estaEnvenenado() = estaEnvenenado
+
+  method envenenar() {
+    estaEnvenenado = true
+    imagen = "heroeEnvenenado.png"
+  }
+
+  method dialogoVeneno(){
+    game.say(self, "Veneno... Ahora los golpes van a doler mas")
+  }
   
   method vida() = vida 
   
   method perderVida(cantidad) {
-    vida -= cantidad
+
+    var dañoRecibido = cantidad
+    
+    if(self.estaEnvenenado()) dañoRecibido += 10
+  
+    vida -= dañoRecibido
     imagen = "heroeLastimado.png"
   }
   
@@ -21,13 +38,18 @@ object heroe {
   }
 
   method volverALaNormalidad() {
-    imagen = "heroe.png"
+    if(self.estaEnvenenado()) {
+      imagen = "heroeEnvenenado.png"
+    } else {
+      imagen = "heroe.png"
+    }
   }
 }
 
 class MurcielagoDeCueva {
+  method atacaConVeneno() = false
   method esLaPuertaFalsa() = false
-  const property esHostil = true
+  method esHostil() = true
   var property vida
   var property daño = vida.div(10)
   var property esVenenoso = vida.even()
@@ -63,4 +85,34 @@ class MurcielagoDeCueva {
 
     position = game.at(xNueva, yNueva)
   }
+}
+
+class EsqueletoMortal {
+  method esLaPuertaFalsa() = false
+  method esHostil() = true
+  method image() = "esqueletoMortal.png"
+
+  const x = 5.randomUpTo(game.width()-3).truncate(0)
+  const y = 8.randomUpTo(game.height()-7).truncate(0)
+
+  var position = game.at(x, y)
+  method position() = position
+
+  method moverse() {
+    var xNueva = 2.randomUpTo(game.width()-3).truncate(0)
+    var yNueva = 2.randomUpTo(game.height()-7).truncate(0)
+    
+    if(xNueva == 4){
+      xNueva += 1
+    }
+    if(yNueva == 7){
+      yNueva += 1
+    }
+
+    position = game.at(xNueva, yNueva)
+  }
+
+  method daño() = 30
+  method atacaConVeneno() = true
+  
 }
