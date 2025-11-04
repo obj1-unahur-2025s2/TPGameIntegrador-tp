@@ -54,7 +54,7 @@ object heroe {
     imagen = "heroe.png"
 
     // el heroe esta muy debilitado
-    if(vida <= 25 and imagen !== "heroeAUnGolpe.png" or vida <= 30 and imagen !== "heroeAUnGolpeIzq.png"){
+    if(vida <= 40 and imagen !== "heroeAUnGolpe.png" or vida <= 30 and imagen !== "heroeAUnGolpeIzq.png"){
       imagen = "heroeAUnGolpe.png"
       game.say(self, "Estoy muy debilitado...")
     }
@@ -84,8 +84,6 @@ class MurcielagoDeCueva {
   var x = 1.randomUpTo(game.width()-3).truncate(0)
   var y = 1.randomUpTo(game.height()-3).truncate(0)
 
-  var position = game.at(x, y)
-
   method chequearPosicion(xPar, yPar){
     if(x == 2){
       x += 1
@@ -97,8 +95,9 @@ class MurcielagoDeCueva {
     position = game.at(x, y)
     return position
   }
-  
-  method position() = self.chequearPosicion(x, y)
+
+  var position = self.chequearPosicion(x, y)
+  method position() = position
   
   method moverse() {
     var xNueva = 1.randomUpTo(game.width()-3).truncate(0)

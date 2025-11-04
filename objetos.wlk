@@ -36,8 +36,6 @@ class Pico {
   var x = 1.randomUpTo(game.width()-3).truncate(0)
   var y = 1.randomUpTo(game.height()-3).truncate(0)
 
-  var position = game.at(x, y)
-
   method chequearPosicion(xPar, yPar){
     if(x == 2){
       x += 1
@@ -51,7 +49,8 @@ class Pico {
     return position
   }
 
-  method position() = self.chequearPosicion(x, y)
+  var position = self.chequearPosicion(x, y)
+  method position() = position
 
   const esPicoVolcanico = (x + y).even()
   method esVolcanico() = esPicoVolcanico
