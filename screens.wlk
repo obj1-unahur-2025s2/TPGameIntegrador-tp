@@ -41,7 +41,7 @@ object nivel1Keys{
 
 object cartelNivel1{
   method image() = "cartelNivel1.png"
-  method position() = game.at(1.5, 1.5)
+  method position() = game.at(11, -1)
 }
 
 object cartelNivel2{

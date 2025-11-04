@@ -32,27 +32,41 @@ class Pico {
   method esLaPuertaFinal() = false
   method esHostil() = true
   method atacaConVeneno() = false
-  method daño() = 15
 
-  const x = 3.randomUpTo(game.width()-3).truncate(0)
-  const y = 2.randomUpTo(game.height()-7).truncate(0)
+  var x = 1.randomUpTo(game.width()-3).truncate(0)
+  var y = 1.randomUpTo(game.height()-3).truncate(0)
 
   var position = game.at(x, y)
-  method position() = position
+
+  method chequearPosicion(xPar, yPar){
+    if(x == 2){
+      x += 1
+    }
+
+    if(y == 4){
+      y += 1
+    }
+
+    position = game.at(x, y)
+    return position
+  }
+
+  method position() = self.chequearPosicion(x, y)
 
   const esPicoVolcanico = (x + y).even()
   method esVolcanico() = esPicoVolcanico
 
   method image() = if (esPicoVolcanico) "picoVolcanico.png" else "pico.png"
+  method daño(){ if (esPicoVolcanico) return 25 else return 15 }
 
   method reordenar() {
-    var xNueva = 2.randomUpTo(game.width()-3).truncate(0)
-    var yNueva = 2.randomUpTo(game.height()-7).truncate(0)
+    var xNueva = 1.randomUpTo(game.width()-3).truncate(0)
+    var yNueva = 1.randomUpTo(game.height()-3).truncate(0)
 
-    if(xNueva == 4){
+    if(xNueva == 2){
       xNueva += 1
     }
-    if(yNueva == 7){
+    if(yNueva == 4){
       yNueva += 1
     }
 

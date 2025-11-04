@@ -47,14 +47,16 @@ object heroe {
   }
   
   method volverAlOrigen() {
-    position = game.at(4, 7)
+    position = game.at(2, 4)
   }
 
-  method volverALaNormalidad() {
+  method cambiarAsset() {
     imagen = "heroe.png"
 
-    if(vida <= 30 and imagen !== "heroeAUnGolpe.png" or vida <= 30 and imagen !== "heroeAUnGolpeIzq.png"){
+    // el heroe esta muy debilitado
+    if(vida <= 25 and imagen !== "heroeAUnGolpe.png" or vida <= 30 and imagen !== "heroeAUnGolpeIzq.png"){
       imagen = "heroeAUnGolpe.png"
+      game.say(self, "Estoy muy debilitado...")
     }
   }
 
@@ -79,16 +81,28 @@ class MurcielagoDeCueva {
   var property image = "murcielagoDeCueva.png"
   method image() = image
 
-  const x = 5.randomUpTo(game.width()-3).truncate(0)
-  const y = 8.randomUpTo(game.height()-7).truncate(0)
+  var x = 1.randomUpTo(game.width()-3).truncate(0)
+  var y = 1.randomUpTo(game.height()-3).truncate(0)
 
   var position = game.at(x, y)
+
+  method chequearPosicion(xPar, yPar){
+    if(x == 2){
+      x += 1
+    }
+    if(y == 4){
+      y += 1
+    }
+
+    position = game.at(x, y)
+    return position
+  }
   
-  method position() = position
+  method position() = self.chequearPosicion(x, y)
   
   method moverse() {
-    var xNueva = 1.randomUpTo(game.width()-1).truncate(0)
-    var yNueva = 1.randomUpTo(game.height()-1).truncate(0)
+    var xNueva = 1.randomUpTo(game.width()-3).truncate(0)
+    var yNueva = 1.randomUpTo(game.height()-3).truncate(0)
     
     if(xNueva == 2){
       xNueva += 1
@@ -106,15 +120,15 @@ class EsqueletoMortal {
   method esHostil() = true
   method image() = "esqueletoMortal.png"
 
-  const x = 1.randomUpTo(game.width()-1).truncate(0)
-  const y = 1.randomUpTo(game.height()-1).truncate(0)
+  const x = 1.randomUpTo(game.width()-3).truncate(0)
+  const y = 1.randomUpTo(game.height()-3).truncate(0)
 
   var position = game.at(x, y)
   method position() = position
 
   method moverse() {
-    var xNueva = 1.randomUpTo(game.width()-1).truncate(0)
-    var yNueva = 1.randomUpTo(game.height()-1).truncate(0)
+    var xNueva = 1.randomUpTo(game.width()-3).truncate(0)
+    var yNueva = 1.randomUpTo(game.height()-3).truncate(0)
     
     if(xNueva == 2){
       xNueva += 1

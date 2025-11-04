@@ -39,12 +39,13 @@ object colisiones {
         heroe.perderVida(elemento.daño())
         heroe.volverAlOrigen()
         nivel1.reordenarPicos()
+        nivel1.generarEsqueletoMortal()
         
         if(elemento.atacaConVeneno()) {
           heroe.serEnvenenado()
         }
         
-        game.schedule(700, { heroe.volverALaNormalidad() })
+        game.schedule(700, { heroe.cambiarAsset() })
 
         if(heroe.vida() <= 0){
           game.stop()
@@ -109,18 +110,20 @@ object nivel1 {
   const murcielago5 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago6 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago7 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
+  const murcielago8 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
 
-  var murcielagosNivel = [
+  const murcielagosNivel = [
     murcielago1,
     murcielago2,
     murcielago3,
     murcielago4,
     murcielago5,
     murcielago6,
-    murcielago7
+    murcielago7,
+    murcielago8
   ]
 
-  var picosNivel = [
+  const picosNivel = [
     new Pico(),
     new Pico(),
     new Pico(),
@@ -135,21 +138,6 @@ object nivel1 {
 
   method reordenarPicos(){
     picosNivel.forEach({ p => p.reordenar() })
-  }
-
-  method aumentarDificultad(){
-    const murcielago8 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
-    const murcielago9 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
-    const murcielago10 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
-
-    const murcielagosNivelAd = [murcielago8, murcielago9, murcielago10]
-    const picosNivelAd = [new Pico(), new Pico(), new Pico()]
-
-    murcielagosNivel += murcielagosNivelAd
-    picosNivel += picosNivelAd 
-
-    murcielagosNivelAd.forEach({ m => game.addVisual(m) })
-    picosNivelAd.forEach({ p => game.addVisual(p) })
   }
   
   method moverMurcielagos() {
@@ -187,6 +175,7 @@ object nivel1 {
 
     game.addVisual(paredMazmorra)
     game.addVisual(nivel1Keys)
+    game.addVisual(cartelNivel1)
     game.addVisualCharacter(heroe)
 
     game.onTick(200, "bordes", { movimiento.comprobarBordes() })
@@ -197,6 +186,9 @@ object nivel1 {
     murcielagosNivel.forEach({ m => game.addVisual(m) })
     // cada 1,2s se mueven los murcielagos
     game.onTick(1200, "movimientoMurcielagos", { self.moverMurcielagos() })
+    // cada 1,2s se mueven los murcielagos
+    game.onTick(1200, "movimientoEsqueletos", { self.moverEsqueletos() })
+
     picosNivel.forEach({ p => game.addVisual(p) })
 
     game.addVisual(puertaFalsa)
