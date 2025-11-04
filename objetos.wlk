@@ -4,11 +4,7 @@ object puertaFalsa {
   method esLaPuertaFinal() = false
   method esLaPuertaFalsa() = true
   var property image = "puertaFalsa.png"
-<<<<<<< HEAD
   var property position = game.at(23, 4)
-=======
-  var property position = game.at(24, 6)
->>>>>>> 2dd6e8f9bcb3c4d859a4719175d2669b8014a2d4
   
   // getters
   method position() = position
@@ -20,11 +16,7 @@ object puertaFinal {
   method esLaPuertaFinal() = true
   method esLaPuertaFalsa() = false
   var property image = "puertaFinal.png"
-<<<<<<< HEAD
   var property position = game.at(23, 4)
-=======
-  var property position = game.at(24, 6)
->>>>>>> 2dd6e8f9bcb3c4d859a4719175d2669b8014a2d4
   
   // getters
   method position() = position
