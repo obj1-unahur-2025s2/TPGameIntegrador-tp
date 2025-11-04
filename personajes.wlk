@@ -1,12 +1,13 @@
 import wollok.game.*
-import nivel.*
+import niveles.*
 
 object heroe {
   var property imagen = "heroe.png"
-  var property position = game.at(4, 7)
+  var property position = game.at(2, 4)
   var property vida = 100
   
   method image() = imagen
+
   method position() = position
 
   var property estaEnvenenado = false
@@ -31,6 +32,22 @@ object heroe {
   
     vida -= dañoRecibido
     imagen = "heroeLastimado.png"
+  }
+
+  method cambiarAssetIzq(){
+    if(vida > 15){
+      imagen = "heroeIzq.png"
+    } else {
+      imagen = "heroeAUnGolpeIzq.png"
+    }
+  }
+
+  method cambiarAssetDer(){
+    if(vida > 15){
+      imagen = "heroe.png"
+    } else {
+      imagen = "heroeAUnGolpe.png"
+    }
   }
   
   method volverAlOrigen() {
