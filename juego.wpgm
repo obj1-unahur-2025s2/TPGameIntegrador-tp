@@ -1,0 +1,88 @@
+import wollok.game.*
+import personajes.*
+import objetos.*
+import nivel.*
+
+program miJuego {
+  game.width(27)
+  game.height(15)
+  game.cellSize(50)
+  game.title("Heroe de la mazmorra")
+  nivel.setBg()
+  game.start()
+  game.addVisualCharacter(heroe)
+  nivel.setup()
+  
+  // cada 1,3s se mueven los murcielagos
+  game.onTick(1300, "movimientoMurcielagos", { nivel.moverMurcielagos() })
+  game.onTick(200, "bordes", { nivel.comprobarBordes() })
+  
+  // Cuando el personaje colisione con un murcielago o pico vuelve al origen y pierde vida
+  game.whenCollideDo(
+    heroe,
+    { elemento => 
+    
+      if (elemento.esHostil()) {
+      
+        heroe.perderVida(elemento.daño())
+        heroe.volverAlOrigen()
+        nivel.reordenarPicos()
+        game.schedule(700, { heroe.volverALaNormalidad() })
+        textoNivel.actualizarVidaPlayer()
+        
+        if(elemento.atacaConVeneno()) {
+          heroe.envenenar()
+          heroe.dialogoVeneno()
+        }
+
+        if(heroe.vida() <= 0) {
+          game.removeTickEvent("movimientoMurcielagos")
+          game.removeTickEvent("bordes")
+          textoNivel.gameOver()
+          game.stop() 
+
+        } else if(heroe.vida() <= 0 && game.hasVisual(contadorFaseFinal)){
+          game.removeTickEvent("movimientoMurcielagos")
+          game.removeTickEvent("movimientoEsqueletos")
+          game.removeTickEvent("contadorFaseFinal")
+          game.removeTickEvent("bordes")
+
+          textoNivel.gameOver()
+          game.stop() 
+        }
+
+        if(game.hasVisual(contadorFaseFinal)){
+          nivel.generarEsqueletoMortal()
+        }
+      } 
+
+      if(!elemento.esHostil() and elemento.esLaPuertaFalsa()){
+        nivel.cambiarPuerta()
+        heroe.volverAlOrigen()
+        nivel.reordenarPicos()
+        nivel.aumentarDificultad()
+        textoNivel.actualizarVidaPlayer()
+        textoNivel.faseFinal()
+        puertaFinal.buenIntento()
+
+        // iniciar contador de fase final
+        game.addVisual(contadorFaseFinal)
+        game.onTick(1000, "contadorFaseFinal", { contadorFaseFinal.actualizarSegundos() })
+
+        // cada 2,2s se mueven los esqueletos
+        game.onTick(2200, "movimientoEsqueletos", { nivel.moverEsqueletos() })
+      }
+
+      if(!elemento.esHostil() and elemento.esLaPuertaFinal()){
+        game.removeTickEvent("movimientoMurcielagos")
+        game.removeTickEvent("movimientoEsqueletos")
+        game.removeTickEvent("contadorFaseFinal")
+        game.removeTickEvent("bordes")
+        textoNivel.win()
+        game.stop()
+      }
+
+    }
+  )
+
+}
