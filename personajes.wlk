@@ -7,18 +7,14 @@ object heroe {
   var property vida = 100
   
   method image() = imagen
-
   method position() = position
 
   var property estaEnvenenado = false
   method estaEnvenenado() = estaEnvenenado
 
-  method envenenar() {
+  method serEnvenenado() {
     estaEnvenenado = true
     imagen = "heroeEnvenenado.png"
-  }
-
-  method dialogoVeneno(){
     game.say(self, "Veneno... Ahora los golpes van a doler mas")
   }
   
@@ -31,22 +27,22 @@ object heroe {
     if(self.estaEnvenenado()) dañoRecibido += 10
   
     vida -= dañoRecibido
-    imagen = "heroeLastimado.png"
+    imagen = "heroeDañado.png"
   }
 
   method cambiarAssetIzq(){
-    if(vida > 15){
-      imagen = "heroeIzq.png"
-    } else {
+    if(imagen == "heroeAUnGolpe.png"){
       imagen = "heroeAUnGolpeIzq.png"
+    } else if(imagen == "heroe.png"){
+      imagen = "heroeIzq.png"
     }
   }
 
   method cambiarAssetDer(){
-    if(vida > 15){
-      imagen = "heroe.png"
-    } else {
+    if(imagen == "heroeAUnGolpeIzq.png"){
       imagen = "heroeAUnGolpe.png"
+    } else if(imagen == "heroeIzq.png"){
+      imagen = "heroe.png"
     }
   }
   
@@ -55,12 +51,13 @@ object heroe {
   }
 
   method volverALaNormalidad() {
-    if(self.estaEnvenenado()) {
-      imagen = "heroeEnvenenado.png"
-    } else {
-      imagen = "heroe.png"
+    imagen = "heroe.png"
+
+    if(vida <= 30 and imagen !== "heroeAUnGolpe.png" or vida <= 30 and imagen !== "heroeAUnGolpeIzq.png"){
+      imagen = "heroeAUnGolpe.png"
     }
   }
+
 }
 
 class MurcielagoDeCueva {
@@ -90,13 +87,13 @@ class MurcielagoDeCueva {
   method position() = position
   
   method moverse() {
-    var xNueva = 2.randomUpTo(game.width()-3).truncate(0)
-    var yNueva = 2.randomUpTo(game.height()-7).truncate(0)
+    var xNueva = 1.randomUpTo(game.width()-1).truncate(0)
+    var yNueva = 1.randomUpTo(game.height()-1).truncate(0)
     
-    if(xNueva == 4){
+    if(xNueva == 2){
       xNueva += 1
     }
-    if(yNueva == 7){
+    if(yNueva == 4){
       yNueva += 1
     }
 
@@ -109,20 +106,20 @@ class EsqueletoMortal {
   method esHostil() = true
   method image() = "esqueletoMortal.png"
 
-  const x = 5.randomUpTo(game.width()-3).truncate(0)
-  const y = 8.randomUpTo(game.height()-7).truncate(0)
+  const x = 1.randomUpTo(game.width()-1).truncate(0)
+  const y = 1.randomUpTo(game.height()-1).truncate(0)
 
   var position = game.at(x, y)
   method position() = position
 
   method moverse() {
-    var xNueva = 2.randomUpTo(game.width()-3).truncate(0)
-    var yNueva = 2.randomUpTo(game.height()-7).truncate(0)
+    var xNueva = 1.randomUpTo(game.width()-1).truncate(0)
+    var yNueva = 1.randomUpTo(game.height()-1).truncate(0)
     
-    if(xNueva == 4){
+    if(xNueva == 2){
       xNueva += 1
     }
-    if(yNueva == 7){
+    if(yNueva == 4){
       yNueva += 1
     }
 
