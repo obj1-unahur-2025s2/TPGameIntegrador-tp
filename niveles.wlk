@@ -10,7 +10,6 @@ object movimiento{
     if(heroe.position().y() <= 1){
       heroe.position(heroe.position().up(1))
     }
-
     if(heroe.position().x() <= 1){
       heroe.position(heroe.position().right(1))
     }
@@ -29,17 +28,23 @@ object movimiento{
 
 object colisiones {
   
-  method conEnemigos(){
+  method activar(){
 
     game.whenCollideDo( heroe,
     { elemento => 
-    
+
       if (elemento.esHostil()) {
 
         heroe.perderVida(elemento.daño())
         heroe.volverAlOrigen()
-        nivel1.reordenarPicos()
-        nivel1.generarEsqueletoMortal()
+        nivel.reordenarPicos()
+
+        if(!game.hasVisual(cartelNivel2)){
+          nivel.generarEsqueletoMortal()
+        } else {
+          nivel.generarEsqueletoMortal()
+          nivel.generarEsqueletoMortal()
+        }
         
         if(elemento.atacaConVeneno()) {
           heroe.serEnvenenado()
@@ -53,15 +58,13 @@ object colisiones {
         
       }
 
+      if(elemento.esLaPuertaAlNivel2()){
+         nivel.setupNivel2()
+      }
+
     })
   }
 
-}
-
-
-object fondoLvl1{
-  method image() = "mazmorra.png" 
-  method position() = game.at(0,0)
 }
 
 
@@ -97,11 +100,7 @@ object contadorFaseFinal{
 }
 
 
-object nivel1 {
-
-  method setBg(){
-    game.addVisual(fondoLvl1)
-  }
+object nivel {
 
   const murcielago1 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago2 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
@@ -111,6 +110,7 @@ object nivel1 {
   const murcielago6 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago7 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
   const murcielago8 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
+  const murcielago9 = new MurcielagoDeCueva(vida = 20.randomUpTo(70).truncate(0))
 
   const murcielagosNivel = [
     murcielago1,
@@ -120,7 +120,8 @@ object nivel1 {
     murcielago5,
     murcielago6,
     murcielago7,
-    murcielago8
+    murcielago8,
+    murcielago9
   ]
 
   const picosNivel = [
@@ -144,19 +145,17 @@ object nivel1 {
     murcielagosNivel.forEach({ m => m.moverse() })
   }
 
-  method cambiarPuerta(){
-    game.removeVisual(puertaFalsa)
-    game.addVisual(puertaFinal)
-  }
-
   const esqueletosEnNivel = []
 
   method generarEsqueletoMortal(){
 
-    if(esqueletosEnNivel.size() >= 4){
+    if(esqueletosEnNivel.size() == 4){
+
       return
+    
     } else {
       const nuevoEsqueleto = new EsqueletoMortal()
+
       esqueletosEnNivel.add(nuevoEsqueleto)
       game.addVisual(nuevoEsqueleto)
     }
@@ -167,13 +166,10 @@ object nivel1 {
     esqueletosEnNivel.forEach({ e => e.moverse() })
   }
 
-
-
-  // se inicia el nivel
-  method setup() {
+  // se inicia el nivel 1
+  method setupNivel1() {
     menuInicial.removeVisualElements()
-
-    game.addVisual(paredMazmorra)
+    game.addVisual(fondoNivel1)
     game.addVisual(nivel1Keys)
     game.addVisual(cartelNivel1)
     game.addVisualCharacter(heroe)
@@ -181,18 +177,47 @@ object nivel1 {
     game.onTick(200, "bordes", { movimiento.comprobarBordes() })
     game.onTick(100, "movimientoHeroe", { movimiento.cambiarMediosHeroe() })
     
-    colisiones.conEnemigos()
+    colisiones.activar()
 
     murcielagosNivel.forEach({ m => game.addVisual(m) })
-    // cada 1,2s se mueven los murcielagos
-    game.onTick(1200, "movimientoMurcielagos", { self.moverMurcielagos() })
-    // cada 1,2s se mueven los murcielagos
-    game.onTick(1200, "movimientoEsqueletos", { self.moverEsqueletos() })
+    // cada 0.9s se mueven los murcielagos
+    game.onTick(900, "movimientoMurcielagos", { self.moverMurcielagos() })
+    // cada 1.5s se mueven los murcielagos
+    game.onTick(1500, "movimientoEsqueletos", { self.moverEsqueletos() })
 
     picosNivel.forEach({ p => game.addVisual(p) })
 
-    game.addVisual(puertaFalsa)
+    game.addVisual(puertaANivel2)
 
+  }
+
+  // se inicia el nivel 2
+  method setupNivel2(){
+
+    corrosion.corromperEsqueletos()
+
+    // acomodar visualmente los assets del nivel
+ 
+    game.removeVisual(fondoNivel1)
+    game.addVisual(fondoNivel2)
+
+    game.removeVisual(nivel1Keys)
+    game.removeVisual(cartelNivel1)
+
+    game.removeVisual(heroe)
+    game.addVisual(heroe)
+
+    game.removeVisual(puertaANivel2)
+
+    esqueletosEnNivel.forEach({ e => game.removeVisual(e) })
+    murcielagosNivel.forEach({ m => game.removeVisual(m) })
+    
+    picosNivel.forEach({ p => game.removeVisual(p) })
+    picosNivel.forEach({ p => game.addVisual(p) })
+
+    game.addVisual(esqueletoCorrupto)
+    game.addVisual(cartelNivel2)
+    self.reordenarPicos()
   }
 
 }

@@ -1,10 +1,11 @@
+import screens.*
 import wollok.game.*
 import niveles.*
 
 object heroe {
   var property imagen = "heroe.png"
   var property position = game.at(2, 4)
-  var property vida = 100
+  var property vida = 200
   
   method image() = imagen
   method position() = position
@@ -47,7 +48,11 @@ object heroe {
   }
   
   method volverAlOrigen() {
-    position = game.at(2, 4)
+    if(game.hasVisual(cartelNivel2)){
+      position = game.at(20, 4)
+    } else {
+      position = game.at(2, 4)
+    }
   }
 
   method cambiarAsset() {
@@ -56,7 +61,7 @@ object heroe {
     // el heroe esta muy debilitado
     if(vida <= 40 and imagen !== "heroeAUnGolpe.png" or vida <= 30 and imagen !== "heroeAUnGolpeIzq.png"){
       imagen = "heroeAUnGolpe.png"
-      game.say(self, "Estoy muy debilitado...")
+      game.say(self, "Me queda poca vida...")
     }
   }
 
@@ -64,7 +69,7 @@ object heroe {
 
 class MurcielagoDeCueva {
   method atacaConVeneno() = false
-  method esLaPuertaFalsa() = false
+  method esLaPuertaAlNivel2() = false
   method esHostil() = true
   var property vida
   var property daño = vida.div(10)
@@ -115,9 +120,12 @@ class MurcielagoDeCueva {
 }
 
 class EsqueletoMortal {
-  method esLaPuertaFalsa() = false
+  method esLaPuertaAlNivel2() = false
   method esHostil() = true
-  method image() = "esqueletoMortal.png"
+
+  method image() = corrosion.image()
+  method atacaConVeneno() = corrosion.estado()
+  method daño() = 30
 
   const x = 1.randomUpTo(game.width()-3).truncate(0)
   const y = 1.randomUpTo(game.height()-3).truncate(0)
@@ -138,8 +146,35 @@ class EsqueletoMortal {
 
     position = game.at(xNueva, yNueva)
   }
-
-  method daño() = 30
-  method atacaConVeneno() = true
   
+}
+
+object corrosion{
+  var estado = false // si esta corrupto ataca con veneno, sino no
+  method estado() = estado
+
+  var imagen = "esqueletoMortal.png"
+  method image() = imagen
+
+  method corromperEsqueletos(){
+    estado = true
+    imagen = "esqueletoMortalCorrupto.png"
+  }
+}
+
+object esqueletoCorrupto{
+  method esLaPuertaAlNivel2() = false
+  method esHostil() = true
+  method atacaConVeneno() = false
+  method daño() = 0
+
+  var vida = 300
+  method vida() = vida
+
+  method serDañado(){
+    vida -= 100
+  }
+
+  method image() = "esqueletoCorrupto.png"
+  method position() = game.at(2, 4)
 }

@@ -9,10 +9,7 @@ program miJuego {
   game.height(10)
   game.cellSize(65)
   game.title("Heroe de la mazmorra")
-  game.ground("celdaNivel1.png")
 
   game.start()
   menuInicial.setup()
-  keyboard.enter().onPressDo({nivel1.setup()})
-
 }
