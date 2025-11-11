@@ -9,6 +9,8 @@ object menuInicial{
         game.addVisual(bordeMenu)
         game.addVisual(titulo)
         game.addVisual(btnIniciar)
+
+
         keyboard.enter().onPressDo({nivel.setupNivel1()})
     }
 
@@ -22,7 +24,13 @@ object menuInicial{
 
 object titulo{
     method image() = "tituloMenu.png"
-    method position() = game.at(8, 3)
+
+    var posicion = game.at(8, 3)
+    method position() = posicion
+
+    method pantallaFinal(){
+      posicion = game.at(2, 3)
+    }
 }
 
 object btnIniciar{
@@ -46,6 +54,7 @@ object fondoNivel1{
 object fondoNivel2{
   method esHostil() = false
   method esLaPuertaAlNivel2() = false
+  method esPicoCorrupto() = false
 
   method image() = "fondoNivel2.png"
   method position() = game.at(0, 0)
@@ -59,6 +68,15 @@ object nivel1Keys{
   method position() = game.at(1.5, 1.5)
 }
 
+object nivel2Keys{
+  method esHostil() = false
+  method esLaPuertaAlNivel2() = false
+  method esPicoCorrupto() = false
+
+  method image() = "nivel2Keys.png"
+  method position() = game.at(20, 1.5)
+}
+
 object cartelNivel1{
   method esHostil() = false
   method esLaPuertaAlNivel2() = false
@@ -70,7 +88,24 @@ object cartelNivel1{
 object cartelNivel2{
   method esHostil() = false
   method esLaPuertaAlNivel2() = false
+  method esPicoCorrupto() = false
 
   method image() = "cartelNivel2.png"
   method position() = game.at(11, -1)
+}
+
+object gameOverScreen{
+  method esHostil() = false
+  method esLaPuertaAlNivel2() = false
+
+  method image() = "gameOverScreen.png"
+  method position() = game.at(0, 0)
+}
+
+object fondoEscape{
+  method esHostil() = false
+  method esLaPuertaAlNivel2() = false
+
+  method image() = "fondoEscape.png"
+  method position() = game.at(0, 0)
 }

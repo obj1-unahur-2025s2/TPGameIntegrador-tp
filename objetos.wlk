@@ -4,6 +4,7 @@ object puertaANivel2 {
   method esHostil() = false
   method esLaPuertaFinal() = false
   method esLaPuertaAlNivel2() = true
+  method esPicoCorrupto() = false
 
   var property image = "puertaANivel2.png"
   var property position = game.at(23, 4)
@@ -17,6 +18,7 @@ object puertaFinal {
   method esHostil() = false
   method esLaPuertaFinal() = true
   method esLaPuertaAlNivel2() = false
+  method esPicoCorrupto() = false
 
   var property image = "puertaFinal.png"
   var property position = game.at(0, 4)
@@ -35,9 +37,10 @@ class Pico {
   method esLaPuertaFinal() = false
   method esHostil() = true
   method atacaConVeneno() = false
+  method esPicoCorrupto() = false
 
-  var x = 1.randomUpTo(game.width()-3).truncate(0)
-  var y = 1.randomUpTo(game.height()-3).truncate(0)
+  var x = 2.randomUpTo(game.width()-2).truncate(0)
+  var y = 2.randomUpTo(game.height()-2).truncate(0)
 
   method chequearPosicion(xPar, yPar){
     if(x == 2){
@@ -62,8 +65,8 @@ class Pico {
   method daño(){ if (esPicoVolcanico) return 25 else return 15 }
 
   method reordenar() {
-    var xNueva = 1.randomUpTo(game.width()-3).truncate(0)
-    var yNueva = 1.randomUpTo(game.height()-3).truncate(0)
+    var xNueva = 2.randomUpTo(game.width()-2).truncate(0)
+    var yNueva = 2.randomUpTo(game.height()-2).truncate(0)
 
     if(xNueva == 2){
       xNueva += 1
@@ -77,38 +80,43 @@ class Pico {
 
 }
 
-object picoCorrupto1 {
+class PicoCorrupto {
   method esLaPuertaAlNivel2() = false
   method esLaPuertaFinal() = false
   method esHostil() = false
   method atacaConVeneno() = false
   method esPicoCorrupto() = true
 
-  var imagen = "cristalCorrupto1.png"
+  var estaDestruido = false
+  method estaDestruido() = estaDestruido
+
+  var imagen = "cristalCorrupto.png"
   method image() = imagen
 
-  var x = 1.randomUpTo(game.width()-3).truncate(0)
-  var y = 1.randomUpTo(game.height()-3).truncate(0)
+  const x = 2.randomUpTo(game.width()-2).truncate(0)
+  const y = 2.randomUpTo(game.height()-2).truncate(0)
 
-  method chequearPosicion(xPar, yPar){
-    if(x == 2){
-      x += 1
+  var posicion = game.at(x, y)
+
+  method reordenar() {
+    var xNueva = 2.randomUpTo(game.width()-2).truncate(0)
+    var yNueva = 2.randomUpTo(game.height()-2).truncate(0)
+
+    if(xNueva == 2){
+      xNueva += 1
+    }
+    if(yNueva == 4){
+      yNueva += 1
     }
 
-    if(y == 4){
-      y += 1
-    }
-
-    position = game.at(x, y)
-    return position
+    posicion = game.at(xNueva, yNueva)
   }
 
-  var position = self.chequearPosicion(x, y)
-  method position() = position
+  method position() = posicion
 
   method romperse(){
-    esqueletoCorrupto.serDañado()
     imagen = "cristalCorruptoDestruido.png"
+    estaDestruido = true
   }
   
 }
