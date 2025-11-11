@@ -6,21 +6,20 @@
 
 ## Capturas
 
-<img src="./assets/cap1.png" alt="captura1" width="600" height="300" />
-
-<img src="./assets/cap2.png" alt="captura2" width="600" height="300" />
+<img src="./capturas gameplay/cap2.png" alt="captura2" width="800" height="300" />
+<img src="./capturas gameplay/cap3.png" alt="captura2" width="800" height="300" />
 
 ## Reglas de Juego / Instrucciones
 
-. Ayuda al Heroe de la mazmorra a salir de ella, vas a tener que cuidarte de los murcielagos qeu te acechan de picos que sobresalen del suelo
-algunos normales y otros volcanicos 🔥
+Ayuda al heroe de la mazmorra a salir de ella y al fin poder descansar en su cabaña, vas a tener que cuidarte de murcielagos, esqueletos y otros peligros 💀
 
-Ah se me olvidaba! el escenario cambia cada vez que te dañan y deberias tener cuidado con las ilusiones, nuestro heroe estuvo mucho tiempo aca abajo...
+Cuidado, ademas de esto, el escenario cambia cada vez que te dañan asi que el desafio es constante
 
-¿Vas a poder con el desafio?
+Mucha suerte en tu travesía!
 
 ## Otros
 
 - Programacion con objetos 1 | Com. 4 | Universidad Nacional De Hurlingham
 - Versión de wollok: v1.0.2
+
 - *Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
