@@ -6,7 +6,7 @@ import niveles.*
 object heroe {
   var property imagen = "heroe.png"
   var property position = game.at(2, 4)
-  var property vida = 200
+  var property vida = 160
   var property estaEnvenenado = false
   
   method image() = imagen
@@ -214,13 +214,13 @@ object esqueletoCorrupto {
     
     if (picosCorruptosEnNivel == 0) {
       imagen = "esqueletoCorruptoDañadoFase2.png"
-      game.say(self, "Esto no va a quedar impune...")
+      game.say(self, "Esto no va a quedar asi...")
       game.schedule(1500, { game.removeVisual(self) })
       nivel.derrotarEsqueletoCorrupto()
     } else {
       self.invocarMurcielagos()
       self.debilitarse()
-      game.say(self, "Ah si? ahora veras!")
+      game.say(self, "Ah si? ahora vas a ver!")
     }
   }
 }
