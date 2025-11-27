@@ -13,7 +13,7 @@
 
 Ayuda al heroe de la mazmorra a salir de ella y al fin poder descansar en su cabaña, vas a tener que cuidarte de murcielagos, esqueletos y otros peligros 💀
 
-Cuidado, ademas de esto, el escenario cambia cada vez que te dañan asi que el desafio es constante
+Cuidado! ademas de esto, el escenario cambia cada vez que te dañan asi que el desafio es constante
 
 Mucha suerte en tu travesía!
 
