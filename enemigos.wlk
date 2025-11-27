@@ -1,33 +1,33 @@
 import personajes.*
 import objetos.*
 
-object nivel1{
+object enemigosNivel{
     const murcielago1 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago2 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago3 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago4 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago5 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago6 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago7 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago8 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
   const murcielago9 = new MurcielagoDeCueva(
-    vida = 20.randomUpTo(70).truncate(0)
+    vida = 30.randomUpTo(70).truncate(0)
   )
 
   const murcielagosNivel = [

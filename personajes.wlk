@@ -6,7 +6,7 @@ import niveles.*
 object heroe {
   var property imagen = "heroe.png"
   var property position = game.at(2, 4)
-  var property vida = 160
+  var property vida = 125
   var property estaEnvenenado = false
   
   method image() = imagen
@@ -62,12 +62,11 @@ object heroe {
     }
   }
   
-  method cambiarAsset() {
+  method restaurarAsset() {
     imagen = "heroe.png"
     
-    
     // el heroe esta muy debilitado
-    if (((vida <= 40) and (imagen !== "heroeAUnGolpe.png")) or ((vida <= 30) and (imagen !== "heroeAUnGolpeIzq.png"))) {
+    if (((vida <= 45) and (imagen !== "heroeAUnGolpe.png")) or ((vida <= 30) and (imagen !== "heroeAUnGolpeIzq.png"))) {
       imagen = "heroeAUnGolpe.png"
       game.say(self, "Me queda poca vida...")
     }

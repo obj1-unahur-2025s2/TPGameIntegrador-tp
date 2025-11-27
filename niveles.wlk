@@ -3,7 +3,9 @@ import objetos.*
 import screens.*
 import enemigos.*
 
-object movimiento {
+object colisiones {
+  
+  // colisiones del heroe con el entorno (evita que atraviese las paredes)
   method comprobarBordes() {
     if (heroe.position().y() >= (game.height() - 2)) heroe.position(
         heroe.position().down(1)
@@ -17,10 +19,9 @@ object movimiento {
     keyboard.left().onPressDo({ heroe.cambiarAssetIzq() })
     keyboard.right().onPressDo({ heroe.cambiarAssetDer() })
   }
-}
+  
+  method comprobarColisionesConHostiles() {
 
-object colisiones {
-  method activar() {
     game.whenCollideDo(
       heroe,
       { elemento =>
@@ -38,7 +39,7 @@ object colisiones {
           
           if (elemento.atacaConVeneno()) heroe.serEnvenenado()
           
-          game.schedule(700, { heroe.cambiarAsset() })
+          game.schedule(700, { heroe.restaurarAsset() })
           
           if (heroe.vida() <= 0) {
             game.addVisual(gameOverScreen)
@@ -63,9 +64,9 @@ object colisiones {
 
 object nivel {
   
-  const picosNivel = nivel1.picosNivel()
-  const murcielagosNivel = nivel1.murcielagosNivel()
-  var esqueletosEnNivel = nivel1.esqueletosEnNivel()
+  const picosNivel = enemigosNivel.picosNivel()
+  const murcielagosNivel = enemigosNivel.murcielagosNivel()
+  var esqueletosEnNivel = enemigosNivel.esqueletosEnNivel()
 
   method reordenarPicos() {
     picosNivel.forEach({ p => p.reordenar() })
@@ -105,10 +106,10 @@ object nivel {
       game.addVisual(cartelNivel1)
       game.addVisualCharacter(heroe)
       
-      game.onTick(200, "bordes", { movimiento.comprobarBordes() })
-      game.onTick(100, "movimientoHeroe", { movimiento.cambiarMediosHeroe() })
+      game.onTick(200, "bordes", { colisiones.comprobarBordes() })
+      game.onTick(100, "movimientoHeroe", { colisiones.cambiarMediosHeroe() })
       
-      colisiones.activar()
+      colisiones.comprobarColisionesConHostiles()
       
       self.generarEsqueletoMortal()
       murcielagosNivel.forEach({ m => game.addVisual(m) })

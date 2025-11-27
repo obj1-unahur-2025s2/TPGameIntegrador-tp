@@ -62,7 +62,7 @@ class Pico {
   method esVolcanico() = esPicoVolcanico
 
   method image() = if (esPicoVolcanico) "picoVolcanico.png" else "pico.png"
-  method daño(){ if (esPicoVolcanico) return 25 else return 15 }
+  method daño(){ if (esPicoVolcanico) return 30 else return 15 }
 
   method reordenar() {
     var xNueva = 2.randomUpTo(game.width()-2).truncate(0)
