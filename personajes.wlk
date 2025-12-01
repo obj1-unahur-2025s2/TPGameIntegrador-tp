@@ -1,17 +1,30 @@
 import objetos.*
 import screens.*
 import wollok.game.*
-import niveles.*
+import nivelManager.*
 
 object heroe {
   var property imagen = "heroe.png"
   var property position = game.at(2, 4)
-  var property vida = 125
+  var property vida = 150
   var property estaEnvenenado = false
+  
+  var yaSeAgregoComoCharacter = false
+  
+  method agregarAlJuego() {
+    if (!yaSeAgregoComoCharacter) {
+      game.addVisualCharacter(self)
+      yaSeAgregoComoCharacter = true
+    } else {
+      if (!game.hasVisual(self)) game.addVisual(self)
+    }
+  }
   
   method image() = imagen
   
   method position() = position
+
+  method esElJugador() = true
   
   method estaEnvenenado() = estaEnvenenado
   
@@ -22,6 +35,11 @@ object heroe {
   }
   
   method vida() = vida
+  
+  method reiniciarVida() {
+    vida = 150
+    imagen = "heroe.png"
+  }
   
   method perderVida(cantidad) {
     var dañoRecibido = cantidad
@@ -54,6 +72,14 @@ object heroe {
     }
   }
   
+  method guardarUltimaPosicion(x, y) {
+    position = game.at(x, y)
+  }
+  
+  method reiniciarPosicion() {
+    position = game.at(2, 4)
+  }
+  
   method volverAlOrigen() {
     if (game.hasVisual(cartelNivel2)) {
       position = game.at(20, 4)
@@ -78,14 +104,22 @@ class MurcielagoDeCueva {
   var property daño = vida.div(10)
   var property esVenenoso = vida.even()
   var property image = "murcielagoDeCueva.png"
-  var x = 2.randomUpTo(game.width() - 2).truncate(0)
-  var y = 2.randomUpTo(game.height() - 2).truncate(0)
-  var position = self.chequearPosicion(x, y)
+  const x = 2.randomUpTo(game.width() - 2).truncate(0)
+  const y = 2.randomUpTo(game.height() - 2).truncate(0)
+  var position = game.at(x, y)
+
+  method esElJugador() = false
+
+  method esPersonaje() = true
   
   method atacaConVeneno() = false
+  
   method esLaPuertaAlNivel2() = false
+  
   method esLaPuertaFinal() = false
+  
   method esHostil() = true
+  
   method esPicoCorrupto() = false
   
   method daño() {
@@ -98,28 +132,14 @@ class MurcielagoDeCueva {
   
   method image() = image
   
-  method chequearPosicion(xPar, yPar) {
-    if (x == 2) {
-      x += 1
-    }
-    if (y == 4) {
-      y += 1
-    }
-    
-    position = game.at(x, y)
-    return position
-  }
-  
   method position() = position
   
   method moverse() {
     var xNueva = 2.randomUpTo(game.width() - 2).truncate(0)
     var yNueva = 2.randomUpTo(game.height() - 2).truncate(0)
     
-    if (xNueva == 2) {
+    if ((xNueva == 2) and (yNueva == 4)) {
       xNueva += 1
-    }
-    if (yNueva == 4) {
       yNueva += 1
     }
     
@@ -131,12 +151,19 @@ class EsqueletoMortal {
   const x = 2.randomUpTo(game.width() - 2).truncate(0)
   const y = 2.randomUpTo(game.height() - 2).truncate(0)
   var position = game.at(x, y)
+
+  method esPersonaje() = true
+
+  method esElJugador() = false
   
   method esLaPuertaAlNivel2() = false
+  
   method esHostil() = true
+  
   method esPicoCorrupto() = false
+  
   method esLaPuertaFinal() = false
-
+  
   method image() = corrosion.image()
   
   method atacaConVeneno() = corrosion.estado()
@@ -146,22 +173,15 @@ class EsqueletoMortal {
   method position() = position
   
   method moverse() {
-    var xNueva = 2.randomUpTo(game.width() - 2).truncate(0)
-    var yNueva = 2.randomUpTo(game.height() - 2).truncate(0)
-    
-    if (xNueva == 2) {
-      xNueva += 1
-    }
-    if (yNueva == 4) {
-      yNueva += 1
-    }
+    const xNueva = 2.randomUpTo(game.width() - 2).truncate(0)
+    const yNueva = 2.randomUpTo(game.height() - 2).truncate(0)
     
     position = game.at(xNueva, yNueva)
   }
 }
 
 object corrosion {
-  var estado = false // si esta corrupto ataca con veneno, sino no
+  var estado = false // si esta corrupto ataca con veneno generando mas daño
   var imagen = "esqueletoMortal.png"
   
   method estado() = estado
@@ -172,16 +192,25 @@ object corrosion {
     estado = true
     imagen = "esqueletoMortalCorrupto.png"
   }
+  
+  method reiniciarCorrosion() {
+    estado = false
+    imagen = "esqueletoMortal.png"
+  }
 }
 
 object esqueletoCorrupto {
   var imagen = "esqueletoCorrupto.png"
   var picosCorruptosEnNivel = 3
   
+  method esPersonaje() = true
+
+  method esElJugador() = false
+
   method esPicoCorrupto() = false
   
   method esLaPuertaAlNivel2() = false
-
+  
   method esLaPuertaFinal() = false
   
   method esHostil() = true
@@ -195,10 +224,12 @@ object esqueletoCorrupto {
   method position() = game.at(2, 4)
   
   method invocarMurcielagos() {
-    if (picosCorruptosEnNivel == 2) nivel.reapareceMurcielagos()
+    if (picosCorruptosEnNivel == 2) nivelManager.reaparecerMurcielagos()
   }
 
-  method debilitarse(){
+  method moverse(){}
+  
+  method debilitarse() {
     if (picosCorruptosEnNivel == 1) {
       imagen = "esqueletoCorruptoDañadoFase2.png"
       game.schedule(900, { imagen = "esqueletoCorruptoFase2.png" })
@@ -215,11 +246,16 @@ object esqueletoCorrupto {
       imagen = "esqueletoCorruptoDañadoFase2.png"
       game.say(self, "Esto no va a quedar asi...")
       game.schedule(1500, { game.removeVisual(self) })
-      nivel.derrotarEsqueletoCorrupto()
+      nivelManager.derrotarEsqueletoCorrupto()
     } else {
       self.invocarMurcielagos()
       self.debilitarse()
       game.say(self, "Ah si? ahora vas a ver!")
     }
+  }
+
+  method reiniciarEstado(){
+    imagen = "esqueletoCorrupto.png"
+    picosCorruptosEnNivel = 3
   }
 }

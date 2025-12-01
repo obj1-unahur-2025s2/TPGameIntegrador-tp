@@ -38,25 +38,24 @@ class Pico {
   method esHostil() = true
   method atacaConVeneno() = false
   method esPicoCorrupto() = false
+  method esPersonaje() = false
+  method esElJugador() = false
 
   var x = 2.randomUpTo(game.width()-2).truncate(0)
   var y = 2.randomUpTo(game.height()-2).truncate(0)
 
   method chequearPosicion(xPar, yPar){
-    if(x == 2){
-      x += 1
+    if(x == 22 and y == 4){
+      x -= 2
+      y -= 2
     }
 
-    if(y == 4){
-      y += 1
-    }
-
-    position = game.at(x, y)
-    return position
+    posicion = game.at(x, y)
+    return posicion
   }
 
-  var position = self.chequearPosicion(x, y)
-  method position() = position
+  var posicion = self.chequearPosicion(x, y)
+  method position() = posicion
 
   const esPicoVolcanico = (x + y).even()
   method esVolcanico() = esPicoVolcanico
@@ -68,14 +67,12 @@ class Pico {
     var xNueva = 2.randomUpTo(game.width()-2).truncate(0)
     var yNueva = 2.randomUpTo(game.height()-2).truncate(0)
 
-    if(xNueva == 2){
-      xNueva += 1
-    }
-    if(yNueva == 4){
-      yNueva += 1
+    if(xNueva == 22 and yNueva == 4){
+      xNueva -= 2
+      yNueva -= 2
     }
 
-    position = game.at(xNueva, yNueva)
+    posicion = game.at(xNueva, yNueva)
   }
 
 }
@@ -86,6 +83,8 @@ class PicoCorrupto {
   method esHostil() = false
   method atacaConVeneno() = false
   method esPicoCorrupto() = true
+  method esPersonaje() = false
+  method esElJugador() = false
 
   var estaDestruido = false
   method estaDestruido() = estaDestruido
@@ -93,20 +92,28 @@ class PicoCorrupto {
   var imagen = "cristalCorrupto.png"
   method image() = imagen
 
-  const x = 2.randomUpTo(game.width()-2).truncate(0)
-  const y = 2.randomUpTo(game.height()-2).truncate(0)
+  var x = 2.randomUpTo(game.width()-2).truncate(0)
+  var y = 2.randomUpTo(game.height()-2).truncate(0)
 
-  var posicion = game.at(x, y)
+  method chequearPosicion(xPar, yPar){
+    if(x == 22 and y == 4){
+      x -= 2
+      y -= 2
+    }
+
+    posicion = game.at(x, y)
+    return posicion
+  }
+
+  var posicion = self.chequearPosicion(x, y)
 
   method reordenar() {
     var xNueva = 2.randomUpTo(game.width()-2).truncate(0)
     var yNueva = 2.randomUpTo(game.height()-2).truncate(0)
 
-    if(xNueva == 2){
-      xNueva += 1
-    }
-    if(yNueva == 4){
-      yNueva += 1
+    if (xNueva == 22 and yNueva == 4) {
+      xNueva -= 2
+      yNueva -= 2
     }
 
     posicion = game.at(xNueva, yNueva)
@@ -117,6 +124,11 @@ class PicoCorrupto {
   method romperse(){
     imagen = "cristalCorruptoDestruido.png"
     estaDestruido = true
+  }
+
+  method reiniciarEstado(){
+    imagen = "cristalCorrupto.png"
+    estaDestruido = false
   }
   
 }

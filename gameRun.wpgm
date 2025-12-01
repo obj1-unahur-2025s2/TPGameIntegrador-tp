@@ -1,8 +1,9 @@
 import wollok.game.*
 import personajes.*
 import objetos.*
-import niveles.*
+import nivelManager.*
 import screens.*
+import nivel1.*
 
 program miJuego {
   game.width(25)
